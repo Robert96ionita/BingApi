@@ -1,7 +1,27 @@
 # Goal
 
-_Using this web application a user can search for anything on the web and then save the results for future use.
-The search will be executed using Bing's Search Engine._
+_Using this web application a user can search for TV-shows and add them to her/his personal collection. Every day a list with airing TV-shows will be displayed based on prefferences.
+
+# How to install
+
+* Clone this repo
+* cd -directory
+* npm install
+* install mysql and create a database
+* to configure the database and the api key create a file called keys.js inside /config directory
+* the keys.js file should have this structure
+module.exports = {
+    secret: "random secret",
+    database: {
+        User: "db user",
+        Password: "obviously",
+        Name: "db name"
+    },
+    API: {
+        key: "API KEY - from https://www.themoviedb.org/settings/api"
+    }
+};
+* to run the server user the command: npm start
 
 # User Interface
 
@@ -10,7 +30,7 @@ The search will be executed using Bing's Search Engine._
 * Header menu for switching between views (search view and saved searches view) or performing logout
 * Input for entering the desired search parameters
 * Separate view for displaying the results based on the search params with the characteristic that every result can be marked as saved
-* List containing all the previously saved searches
+* List containing favourite TV-shows
 
 ## Which technologies ?
 React and Redux for structuring the app and connecting user actions . 
@@ -22,12 +42,16 @@ Webpack to bundle the code .
 # Backend 
 
 ## External API
-Bing Search API V7 for fetching data
-ex: GET https://api.cognitive.microsoft.com/bing/v7.0/search[?q][&count][&offset][&mkt][&safesearch]
+The movie DB - https://developers.themoviedb.org/3
+ex: GET https://api.themoviedb.org/3/tv/{tv_id}?api_key=<<api_key>>&language=en-US
 
 ## Requests
-* POST api/save-search/:result
-* GET api/search/:params -> making a request to get all the results for the specified params
+* GET /api/search/shows?name=<<Desired name>> - Search for a tv-show by name
+* GET /api/show/:id - Search for a specific tv-show by id
+* GET /api/show/:id/season/:number - Search for a specific season of a tv-show
+* GET /api/user/:id/favourite-shows/today - Get airing tv-shows for today from the favourite list
+* POST /api/favourite - Add a favourite tv-show
+* POST /api/tv-show - Add a tv-show
 * POST /login -> providing the login params
 * POST /register -> providing the registration details
 * GET /logout -> deleting the session
