@@ -10,7 +10,7 @@ _Using this web application a user can search for TV-shows and add them to her/h
 * install mysql and create a database
 * to configure the database and the api key create a file called keys.js inside /config directory
 * the keys.js file should have this structure
-module.exports = {
+`module.exports = {
     secret: "random secret",
     database: {
         User: "db user",
@@ -20,7 +20,7 @@ module.exports = {
     API: {
         key: "API KEY - from https://www.themoviedb.org/settings/api"
     }
-};
+};`
 * to run the server user the command: npm start
 
 # User Interface
