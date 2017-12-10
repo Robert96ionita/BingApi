@@ -4,6 +4,12 @@ _Using this web application a user can search for TV-shows and add them to her/h
 
 # How to install
 
+## Perequisites
+
+* nodejs and npm installed on the machine
+
+## Installing
+
 * Clone this repo
 * cd -directory
 * npm install
@@ -21,7 +27,7 @@ _Using this web application a user can search for TV-shows and add them to her/h
         key: "API KEY - from https://www.themoviedb.org/settings/api"
     }
 };`
-* to run the server user the command: npm start
+* to run the server use the command: npm start
 
 # User Interface
 
