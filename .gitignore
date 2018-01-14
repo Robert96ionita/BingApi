@@ -1,5 +1,5 @@
-client/
 node_modules/
 npm-debug.log
 config/keys.js
 .idea/
+.DS_Store

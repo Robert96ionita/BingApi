@@ -82,24 +82,34 @@ module.exports = (app) => {
                 json: true
             });
 
-            // requestFactory.makeRecursiveRequest((err, response) => {
-            //     if (err) {
-            //         res.status(400).json(err.message);
-            //     }
-            //     res.send(response);
-            // });
-            requestFactory.makeRequest((err, response) => {
+            requestFactory.makeRecursiveRequest((err, response) => {
                 if (err) {
                     res.status(400).json(err.message);
                 }
-
-                let results = middleware.shows(response, showIds);
-                if (results.pages !== 1) {
-                    requestFactory.setQuery({});
-                }
-
-                res.json(results);
+                res.send(response);
             });
+            // requestFactory.makeRequest((err, response) => {
+            //     if (err) {
+            //         res.status(400).json(err.message);
+            //     }
+            //
+            //     let results = middleware.shows(response, showIds);
+            //     if (results.pages !== 1) {
+            //         requestFactory.setQuery({});
+            //     }
+            //
+            //     res.json(results);
+            // });
+        });
+    });
+
+    app.get('/api/:userid/favourites', (req, res) => {
+        ShowsRepo.getShowsByuserId(req.params.userid, (err, shows) => {
+            if (err) {
+                res.status(400).json(err.message);
+            }
+
+            res.json(shows);
         });
     });
 

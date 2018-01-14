@@ -9,7 +9,7 @@ class RequestFactory {
     }
 
     setQuery(query) {
-        this.query = query;
+        Object.assign(this.query, query);
     }
 
     makeRequest(callback) {
@@ -23,27 +23,34 @@ class RequestFactory {
     }
 
     //TODO finish and clean this method
-    // makeRecursiveRequest(callback) {
-    //     this.makeRequest((err, response) => {
-    //         if (err) {
-    //             return callback(err);
-    //         }
-    //
-    //         let results = {};
-    //         Object.assign(results, response);
-    //         if (results.pages !== 1) {
-    //             for (let i = 2; i <= result.pages; i++) {
-    //                 let newQuery = {...this.query, page: i};
-    //                 this.setQuery(newQuery);
-    //                 this.makeRequest((err, response) => {
-    //                     return Object.assign(results, response);
-    //                 });
-    //             }
-    //         }
-    //
-    //         return callback(null, results);
-    //     });
-    // }
+    makeRecursiveRequest(callback) {
+        this.makeRequest((err, response) => {
+            if (err) {
+                return callback(err);
+            }
+
+            let finalResponse = {};
+            Object.assign(finalResponse, response);
+            if (finalResponse.total_pages !== 1) {
+                for (let i = 2; i <= finalResponse.total_pages; i++) {
+                    this.setQuery(Object.assign({}, this.query, {page: i}));
+
+                    request({uri: this.uri, method: this.method, qs: this.query, json: this.json})
+                        .then(function (response) {
+                            const results = [...finalResponse.results, ...response.results];
+                            Object.assign(finalResponse.results, {results: results}, {page: i});
+                            console.log(finalResponse.results.length, finalResponse.page);
+                        })
+                        .catch(function (err) {
+
+                        });
+                }
+            }
+            // console.log(finalResponse.results.length, finalResponse.page);
+
+            return callback(null, this.temp);
+        });
+    }
 
 }
 
